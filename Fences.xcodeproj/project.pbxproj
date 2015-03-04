@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		35070E2B1AA7A04500E5D440 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E2A1AA7A04500E5D440 /* AppDelegate.swift */; };
-		35070E2D1AA7A04500E5D440 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E2C1AA7A04500E5D440 /* ViewController.swift */; };
 		35070E301AA7A04500E5D440 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35070E2E1AA7A04500E5D440 /* Main.storyboard */; };
 		35070E321AA7A04500E5D440 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35070E311AA7A04500E5D440 /* Images.xcassets */; };
 		35070E351AA7A04500E5D440 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35070E331AA7A04500E5D440 /* LaunchScreen.xib */; };
 		35070E411AA7A04500E5D440 /* FencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E401AA7A04500E5D440 /* FencesTests.swift */; };
+		35070E4B1AA7A1A400E5D440 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35070E4A1AA7A1A400E5D440 /* MapKit.framework */; };
+		35070E4F1AA7A1AF00E5D440 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35070E4E1AA7A1AF00E5D440 /* CoreLocation.framework */; };
+		35070E511AA7A3AE00E5D440 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E501AA7A3AE00E5D440 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +31,16 @@
 		35070E251AA7A04500E5D440 /* Fences.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fences.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35070E291AA7A04500E5D440 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35070E2A1AA7A04500E5D440 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		35070E2C1AA7A04500E5D440 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		35070E2F1AA7A04500E5D440 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		35070E311AA7A04500E5D440 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		35070E341AA7A04500E5D440 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		35070E3A1AA7A04500E5D440 /* FencesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FencesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		35070E3F1AA7A04500E5D440 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35070E401AA7A04500E5D440 /* FencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FencesTests.swift; sourceTree = "<group>"; };
+		35070E4A1AA7A1A400E5D440 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		35070E4C1AA7A1AA00E5D440 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = System/Library/Frameworks/WatchKit.framework; sourceTree = SDKROOT; };
+		35070E4E1AA7A1AF00E5D440 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		35070E501AA7A3AE00E5D440 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +48,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35070E4F1AA7A1AF00E5D440 /* CoreLocation.framework in Frameworks */,
+				35070E4B1AA7A1A400E5D440 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +66,9 @@
 		35070E1C1AA7A04500E5D440 = {
 			isa = PBXGroup;
 			children = (
+				35070E4E1AA7A1AF00E5D440 /* CoreLocation.framework */,
+				35070E4C1AA7A1AA00E5D440 /* WatchKit.framework */,
+				35070E4A1AA7A1A400E5D440 /* MapKit.framework */,
 				35070E271AA7A04500E5D440 /* Fences */,
 				35070E3D1AA7A04500E5D440 /* FencesTests */,
 				35070E261AA7A04500E5D440 /* Products */,
@@ -78,10 +88,10 @@
 			isa = PBXGroup;
 			children = (
 				35070E2A1AA7A04500E5D440 /* AppDelegate.swift */,
-				35070E2C1AA7A04500E5D440 /* ViewController.swift */,
+				35070E501AA7A3AE00E5D440 /* MapViewController.swift */,
 				35070E2E1AA7A04500E5D440 /* Main.storyboard */,
-				35070E311AA7A04500E5D440 /* Images.xcassets */,
 				35070E331AA7A04500E5D440 /* LaunchScreen.xib */,
+				35070E311AA7A04500E5D440 /* Images.xcassets */,
 				35070E281AA7A04500E5D440 /* Supporting Files */,
 			);
 			path = Fences;
@@ -212,8 +222,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35070E2D1AA7A04500E5D440 /* ViewController.swift in Sources */,
 				35070E2B1AA7A04500E5D440 /* AppDelegate.swift in Sources */,
+				35070E511AA7A3AE00E5D440 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +349,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Fences/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -349,6 +360,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Fences/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
