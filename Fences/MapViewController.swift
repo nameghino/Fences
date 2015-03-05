@@ -18,6 +18,8 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self;
+
+        mapView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "longPressHandler:"))
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -32,6 +34,37 @@ class MapViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func longPressHandler(lpr: UILongPressGestureRecognizer) {
+        switch lpr.state {
+        case .Began:
+            NSLog("long press detected")
+        case .Changed:
+            NSLog("long press changed")
+        case .Ended:
+            NSLog("long press ended")
+        case .Cancelled:
+            NSLog("long press cancelled")
+        case .Failed:
+            NSLog("long press failed")
+        case .Possible:
+            NSLog("long press is possible")
+        }
+        
+        if lpr.state == .Began {
+            let point = lpr.locationInView(mapView)
+            let coordinate = mapView.convertPoint(point, toCoordinateFromView: mapView)
+            NSLog("coordinate is \(coordinate.latitude);\(coordinate.longitude)")
+            addNewFence(coordinate)
+        }
+    }
+    
+    func addNewFence(coordinate: CLLocationCoordinate2D) {
+        let fence = FenceStore.create()
+        fence.internalCoordinate = coordinate
+        fence.range = 200
+        mapView.addAnnotation(fence)
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -40,7 +73,11 @@ extension MapViewController: MKMapViewDelegate {
         let span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
         let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
         mapView.setRegion(region, animated: true)
+        
+        
     }
+    
+    
 }
 
 extension MapViewController: CLLocationManagerDelegate {

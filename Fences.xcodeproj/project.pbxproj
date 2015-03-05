@@ -15,6 +15,10 @@
 		35070E4B1AA7A1A400E5D440 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35070E4A1AA7A1A400E5D440 /* MapKit.framework */; };
 		35070E4F1AA7A1AF00E5D440 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35070E4E1AA7A1AF00E5D440 /* CoreLocation.framework */; };
 		35070E511AA7A3AE00E5D440 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E501AA7A3AE00E5D440 /* MapViewController.swift */; };
+		35070E531AA7AA3F00E5D440 /* Fence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E521AA7AA3F00E5D440 /* Fence.swift */; };
+		35070E551AA7AACD00E5D440 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E541AA7AACD00E5D440 /* Store.swift */; };
+		35070E571AA7B14000E5D440 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E561AA7B14000E5D440 /* ListViewController.swift */; };
+		35070E591AA7B46100E5D440 /* FencesLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E581AA7B46100E5D440 /* FencesLocationManagerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +45,10 @@
 		35070E4C1AA7A1AA00E5D440 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = System/Library/Frameworks/WatchKit.framework; sourceTree = SDKROOT; };
 		35070E4E1AA7A1AF00E5D440 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		35070E501AA7A3AE00E5D440 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		35070E521AA7AA3F00E5D440 /* Fence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fence.swift; sourceTree = "<group>"; };
+		35070E541AA7AACD00E5D440 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		35070E561AA7B14000E5D440 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		35070E581AA7B46100E5D440 /* FencesLocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FencesLocationManagerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,10 +97,14 @@
 			children = (
 				35070E2A1AA7A04500E5D440 /* AppDelegate.swift */,
 				35070E501AA7A3AE00E5D440 /* MapViewController.swift */,
+				35070E561AA7B14000E5D440 /* ListViewController.swift */,
+				35070E521AA7AA3F00E5D440 /* Fence.swift */,
+				35070E541AA7AACD00E5D440 /* Store.swift */,
 				35070E2E1AA7A04500E5D440 /* Main.storyboard */,
 				35070E331AA7A04500E5D440 /* LaunchScreen.xib */,
 				35070E311AA7A04500E5D440 /* Images.xcassets */,
 				35070E281AA7A04500E5D440 /* Supporting Files */,
+				35070E581AA7B46100E5D440 /* FencesLocationManagerDelegate.swift */,
 			);
 			path = Fences;
 			sourceTree = "<group>";
@@ -224,6 +236,10 @@
 			files = (
 				35070E2B1AA7A04500E5D440 /* AppDelegate.swift in Sources */,
 				35070E511AA7A3AE00E5D440 /* MapViewController.swift in Sources */,
+				35070E531AA7AA3F00E5D440 /* Fence.swift in Sources */,
+				35070E591AA7B46100E5D440 /* FencesLocationManagerDelegate.swift in Sources */,
+				35070E571AA7B14000E5D440 /* ListViewController.swift in Sources */,
+				35070E551AA7AACD00E5D440 /* Store.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
