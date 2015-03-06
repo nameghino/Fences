@@ -32,4 +32,12 @@ extension FencesLocationManagerDelegate: CLLocationManagerDelegate {
         fromLocation oldLocation: CLLocation!) {
             CurrentUserLocation = newLocation
     }
+    
+    func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
+        if let fence = FenceStore.get(region.identifier) {
+            let notification = UILocalNotification()
+            notification.alertBody = "Approaching \(fence.key)"
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        }
+    }
 }
