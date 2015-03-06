@@ -9,9 +9,29 @@
 import UIKit
 import Swift
 
-class Store<T: Equatable>: NSObject {
+protocol Storeable {
+    var key: String { get }
+}
+
+func filePathInLibraryDirectory(filePath: String) -> String {
+    let libraryPath = NSSearchPathForDirectoriesInDomains(.LibraryDirectory,.UserDomainMask,true)[0] as! String
+    return libraryPath.stringByAppendingPathComponent(filePath)
+}
+
+func filePathInDocumentsDirectory(filePath: String) -> String {
+    let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,.UserDomainMask,true)[0] as! String
+    return documentsPath.stringByAppendingPathComponent(filePath)
+}
+
+typealias StoreSaveCallback = (Bool) -> (Void)
+
+class Store<T where T: Equatable, T: Storeable>: NSObject {
     private var container: [T] = []
+    private var index: [String: T] = [:]
     private var creator: () -> T
+    private var filePath: String
+    
+    private let lock = NSLock()
     
     var allItems: [T] {
         get {
@@ -19,8 +39,40 @@ class Store<T: Equatable>: NSObject {
         }
     }
     
-    init(creator: () -> T) {
+    convenience init(filePath: String, creator: () -> T) {
+        self.init(filePath: filePath, loadFile: true, creator: creator)
+    }
+    
+    init(filePath: String, loadFile: Bool, creator: () -> T) {
         self.creator = creator
+        self.filePath = filePath
+        
+        super.init()
+        if loadFile {
+            let fm = NSFileManager.defaultManager()
+            if fm.fileExistsAtPath(self.filePath) {
+                self.rebuildIndex(NSKeyedUnarchiver.unarchiveObjectWithFile(self.filePath) as! [T])
+            }
+        }
+    }
+    
+    func rebuildIndex(objects: [T]) {
+        lock.lock()
+        index.removeAll(keepCapacity: true)
+        for o in objects {
+            index[o.key] = o
+            container.append(o)
+        }
+        lock.unlock()
+    }
+    
+    func save(callback: StoreSaveCallback?) {
+        lock.lock()
+        let success = NSKeyedArchiver.archiveRootObject(self.container as! AnyObject, toFile: self.filePath)
+        if let cb = callback {
+            cb(success)
+        }
+        lock.unlock()
     }
     
     func create() -> T {
@@ -30,15 +82,32 @@ class Store<T: Equatable>: NSObject {
     }
     
     func add(item: T) {
+        lock.lock()
         container.append(item)
+        index[item.key] = item
+        lock.unlock()
     }
     
     func get(index: Int) -> T {
         return container[index]
     }
     
+    func get(key: String) -> T? {
+        return index[key]
+    }
+    
     func remove(index: Int) {
-        container.removeAtIndex(index)
+        lock.lock()
+        let item = self.get(index)
+        self.container.removeAtIndex(index)
+        self.index.removeValueForKey(item.key)
+        lock.unlock()
+    }
+    
+    func remove(key: String) {
+        if let item = index[key] {
+            self.remove(item)
+        }
     }
     
     func remove(item: T) {
