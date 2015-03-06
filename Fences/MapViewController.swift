@@ -15,6 +15,7 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     let locationManager = CLLocationManager()
     var firstLocation = true
+    var activeOverlay: MKOverlay?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,24 +86,59 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         
-        if (annotation.isKindOfClass(MKUserLocation)) {
-            return nil
+        if annotation.isKindOfClass(MKUserLocation) { return nil }
+        
+        if annotation.isKindOfClass(Fence) {
+            let fence = annotation as! Fence
+            
+            let annotationView: MKPinAnnotationView
+            if let av = mapView.dequeueReusableAnnotationViewWithIdentifier("FenceAnnotation") as? MKPinAnnotationView {
+                annotationView = av
+            } else {
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "FenceAnnotation")
+            }
+            
+            annotationView.pinColor = fence.active ? .Green : .Red
+            annotationView.animatesDrop = true
+            annotationView.canShowCallout = true
+            return annotationView
         }
-        
-        let fence = annotation as! Fence
-        
-        let annotationView: MKPinAnnotationView
-        if let av = mapView.dequeueReusableAnnotationViewWithIdentifier("FenceAnnotation") as? MKPinAnnotationView {
-            annotationView = av
-        } else {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "FenceAnnotation")
-        }
-        
-        annotationView.pinColor = fence.active ? .Green : .Red
-        annotationView.animatesDrop = true
-        annotationView.canShowCallout = true
-        return annotationView
+        return nil
     }
+    
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if overlay.isKindOfClass(MKCircle) {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.5)
+            renderer.fillColor = UIColor.blueColor().colorWithAlphaComponent(0.1)
+            renderer.lineWidth = 4.0
+            renderer.lineDashPattern = [20, 20]
+            return renderer
+        }
+        
+        return nil
+
+    }
+    
+    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+        let fence = view.annotation as! Fence
+        
+        if let ao = activeOverlay {
+            mapView.removeOverlay(ao)
+        }
+        let overlay = MKCircle(centerCoordinate: fence.location.coordinate, radius: fence.range)
+        mapView.addOverlay(overlay)
+        activeOverlay = overlay
+    }
+    
+    /*
+    func mapView(mapView: MKMapView!, didDeselectAnnotationView view: MKAnnotationView!) {
+        if let ao = activeOverlay {
+            mapView.removeOverlay(ao)
+            activeOverlay = nil
+        }
+    }
+    */
 }
 
 extension MapViewController: CLLocationManagerDelegate {
