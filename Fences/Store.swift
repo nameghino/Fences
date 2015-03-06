@@ -9,7 +9,7 @@
 import UIKit
 import Swift
 
-protocol Storeable {
+public protocol Storeable {
     var key: String { get }
 }
 
@@ -25,10 +25,19 @@ func filePathInDocumentsDirectory(filePath: String) -> String {
 
 typealias StoreSaveCallback = (Bool) -> (Void)
 
-class Store<T where T: Equatable, T: Storeable>: NSObject {
+public class Store<T where T: Equatable, T: Storeable>: NSObject {
     private var container: [T] = []
     private var index: [String: T] = [:]
     private var creator: () -> T
+    
+    // Add callbacks
+    public var willAddBlock: ((T) -> ())?
+    public var didAddBlock: ((T) -> ())?
+
+    // Remove callbacks
+    public var willRemoveBlock: ((T) -> ())?
+    public var didRemoveBlock: ((T) -> ())?
+    
     private var filePath: String
     
     private let lock = NSLock()
@@ -83,8 +92,16 @@ class Store<T where T: Equatable, T: Storeable>: NSObject {
     
     func add(item: T) {
         lock.lock()
+        if let wa = willAddBlock {
+            wa(item)
+        }
         container.append(item)
         index[item.key] = item
+        
+        if let da = didAddBlock {
+            da(item)
+        }
+        
         lock.unlock()
     }
     
@@ -99,8 +116,17 @@ class Store<T where T: Equatable, T: Storeable>: NSObject {
     func remove(index: Int) {
         lock.lock()
         let item = self.get(index)
+        
+        if let wr = willRemoveBlock {
+            wr(item)
+        }
+        
         self.container.removeAtIndex(index)
         self.index.removeValueForKey(item.key)
+        
+        if let dr = didRemoveBlock {
+            dr(item)
+        }
         lock.unlock()
     }
     
