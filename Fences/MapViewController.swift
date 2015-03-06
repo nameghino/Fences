@@ -11,14 +11,14 @@ import MapKit
 import CoreLocation
 
 class MapViewController: UIViewController {
-
+    
     @IBOutlet weak var mapView: MKMapView!
     let locationManager = CLLocationManager()
+    var firstLocation = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self;
-
         mapView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "longPressHandler:"))
     }
     
@@ -29,7 +29,12 @@ class MapViewController: UIViewController {
             locationManager.requestAlwaysAuthorization()
         }
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.addAnnotations(FenceStore.allItems)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -69,15 +74,33 @@ class MapViewController: UIViewController {
 
 extension MapViewController: MKMapViewDelegate {
     func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
-        let delta = 0.035
-        let span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
-        let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
-        mapView.setRegion(region, animated: true)
-        
-        
+        if firstLocation {
+            firstLocation = false
+            let delta = 0.035
+            let span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
+            let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+        }
     }
     
-    
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        
+        if (annotation.isKindOfClass(MKUserLocation)) {
+            return nil
+        }
+        
+        let annotationView: MKPinAnnotationView
+        if let av = mapView.dequeueReusableAnnotationViewWithIdentifier("FenceAnnotation") as? MKPinAnnotationView {
+            annotationView = av
+        } else {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "FenceAnnotation")
+        }
+        
+        annotationView.pinColor = .Purple
+        annotationView.animatesDrop = true
+        annotationView.canShowCallout = true
+        return annotationView
+    }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
