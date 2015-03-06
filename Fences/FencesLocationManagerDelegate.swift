@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 
+var CurrentUserLocation: CLLocation!
+
 class FencesLocationManagerDelegate: NSObject {
     let locationManager = CLLocationManager()
     
@@ -28,5 +30,6 @@ extension FencesLocationManagerDelegate: CLLocationManagerDelegate {
         manager: CLLocationManager!,
         didUpdateToLocation newLocation: CLLocation!,
         fromLocation oldLocation: CLLocation!) {
+            CurrentUserLocation = newLocation
     }
 }
