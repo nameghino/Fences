@@ -30,17 +30,17 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
     private var index: [String: T] = [:]
     private var creator: () -> T
     
+    private let operationQueue = NSOperationQueue()
+    
     // Add callbacks
     public var willAddBlock: ((T) -> ())?
     public var didAddBlock: ((T) -> ())?
-
+    
     // Remove callbacks
     public var willRemoveBlock: ((T) -> ())?
     public var didRemoveBlock: ((T) -> ())?
     
     private var filePath: String
-    
-    private let lock = NSLock()
     
     var allItems: [T] {
         get {
@@ -66,22 +66,24 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
     }
     
     func rebuildIndex(objects: [T]) {
-        lock.lock()
-        index.removeAll(keepCapacity: true)
-        for o in objects {
-            index[o.key] = o
-            container.append(o)
+        operationQueue.addOperationWithBlock() {
+            [unowned self] in
+            self.index.removeAll(keepCapacity: true)
+            for o in objects {
+                self.index[o.key] = o
+                self.container.append(o)
+            }
         }
-        lock.unlock()
     }
     
     func save(callback: StoreSaveCallback?) {
-        lock.lock()
-        let success = NSKeyedArchiver.archiveRootObject(self.container as! AnyObject, toFile: self.filePath)
-        if let cb = callback {
-            cb(success)
+        operationQueue.addOperationWithBlock() {
+            [unowned self] in
+            let success = NSKeyedArchiver.archiveRootObject(self.container as! AnyObject, toFile: self.filePath)
+            if let cb = callback {
+                cb(success)
+            }
         }
-        lock.unlock()
     }
     
     func create() -> T {
@@ -91,18 +93,18 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
     }
     
     func add(item: T) {
-        lock.lock()
-        if let wa = willAddBlock {
-            wa(item)
+        operationQueue.addOperationWithBlock {
+            [unowned self] in
+            if let wa = self.willAddBlock {
+                wa(item)
+            }
+            self.container.append(item)
+            self.index[item.key] = item
+            
+            if let da = self.didAddBlock {
+                da(item)
+            }
         }
-        container.append(item)
-        index[item.key] = item
-        
-        if let da = didAddBlock {
-            da(item)
-        }
-        
-        lock.unlock()
     }
     
     func get(index: Int) -> T {
@@ -114,20 +116,21 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
     }
     
     func remove(index: Int) {
-        lock.lock()
-        let item = self.get(index)
-        
-        if let wr = willRemoveBlock {
-            wr(item)
+        operationQueue.addOperationWithBlock {
+            [unowned self] in
+            let item = self.get(index)
+            
+            if let wr = self.willRemoveBlock {
+                wr(item)
+            }
+            
+            self.container.removeAtIndex(index)
+            self.index.removeValueForKey(item.key)
+            
+            if let dr = self.didRemoveBlock {
+                dr(item)
+            }
         }
-        
-        self.container.removeAtIndex(index)
-        self.index.removeValueForKey(item.key)
-        
-        if let dr = didRemoveBlock {
-            dr(item)
-        }
-        lock.unlock()
     }
     
     func remove(key: String) {
@@ -141,6 +144,4 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
             self.remove(index)
         }
     }
-    
-    
 }
