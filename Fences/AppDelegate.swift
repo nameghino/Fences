@@ -15,7 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let FencesLocationManagerDelegateInstance = FencesLocationManagerDelegate()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        NSLog("loading store")
+        GetFenceStore()
         return true
     }
     
