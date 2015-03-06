@@ -9,13 +9,13 @@
 import UIKit
 
 class ListViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -23,7 +23,7 @@ class ListViewController: UIViewController {
 }
 
 //extension ListViewController: UITableViewDelegate {
-//    
+//
 //}
 
 extension ListViewController: UITableViewDataSource {
@@ -35,11 +35,18 @@ extension ListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("FenceCell", forIndexPath: indexPath) as! UITableViewCell
         let fence = FenceStore.get(indexPath.row)
         
-        cell.textLabel?.text = fence.description
-        let distance = 0
+        cell.textLabel?.text = fence.title
+        let distance = CurrentUserLocation.distanceFromLocation(fence.location)
         
-        cell.detailTextLabel?.text = "\(distance) m"
+        cell.detailTextLabel?.text = String(NSString(format: "%.0f m", distance))
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            FenceStore.remove(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
     }
 }
