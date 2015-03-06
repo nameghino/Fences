@@ -100,11 +100,11 @@
 				35070E561AA7B14000E5D440 /* ListViewController.swift */,
 				35070E521AA7AA3F00E5D440 /* Fence.swift */,
 				35070E541AA7AACD00E5D440 /* Store.swift */,
+				35070E581AA7B46100E5D440 /* FencesLocationManagerDelegate.swift */,
 				35070E2E1AA7A04500E5D440 /* Main.storyboard */,
 				35070E331AA7A04500E5D440 /* LaunchScreen.xib */,
 				35070E311AA7A04500E5D440 /* Images.xcassets */,
 				35070E281AA7A04500E5D440 /* Supporting Files */,
-				35070E581AA7B46100E5D440 /* FencesLocationManagerDelegate.swift */,
 			);
 			path = Fences;
 			sourceTree = "<group>";
@@ -435,6 +435,7 @@
 				35070E461AA7A04500E5D440 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		35070E471AA7A04500E5D440 /* Build configuration list for PBXNativeTarget "FencesTests" */ = {
 			isa = XCConfigurationList;
@@ -443,6 +444,7 @@
 				35070E491AA7A04500E5D440 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
