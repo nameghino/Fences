@@ -89,6 +89,8 @@ extension MapViewController: MKMapViewDelegate {
             return nil
         }
         
+        let fence = annotation as! Fence
+        
         let annotationView: MKPinAnnotationView
         if let av = mapView.dequeueReusableAnnotationViewWithIdentifier("FenceAnnotation") as? MKPinAnnotationView {
             annotationView = av
@@ -96,7 +98,7 @@ extension MapViewController: MKMapViewDelegate {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "FenceAnnotation")
         }
         
-        annotationView.pinColor = .Purple
+        annotationView.pinColor = fence.active ? .Green : .Red
         annotationView.animatesDrop = true
         annotationView.canShowCallout = true
         return annotationView
