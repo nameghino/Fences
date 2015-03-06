@@ -91,4 +91,21 @@ func ==(lhs: Fence, rhs: Fence) -> Bool {
     return false
 }
 
-let FenceStore = Store<Fence>(filePath: filePathInDocumentsDirectory("fences.plist")) { return Fence() }
+var FenceStore: Store<Fence>!
+var fence_store_dispatch_token = dispatch_once_t()
+
+func GetFenceStore() -> Store<Fence> {
+    dispatch_once(&fence_store_dispatch_token) {
+        let fs = Store<Fence>(filePath: filePathInDocumentsDirectory("fences.plist")) { return Fence() }
+        fs.didAddBlock = {
+            fence in
+            NSLog("will activate fence")
+        }
+        fs.willRemoveBlock = {
+            fence in
+            NSLog("will deactivate fence")
+        }
+        FenceStore = fs
+    }
+    return FenceStore
+}
