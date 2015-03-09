@@ -71,6 +71,10 @@ class MapViewController: UIViewController {
         fence.range = 200
         mapView.addAnnotation(fence)
     }
+    
+    func panGestureHandler(pgr: UIPanGestureRecognizer) {
+        NSLog("Dragging pin \(pgr.view)")
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -101,6 +105,7 @@ extension MapViewController: MKMapViewDelegate {
             annotationView.pinColor = fence.active ? .Green : .Red
             annotationView.animatesDrop = true
             annotationView.canShowCallout = true
+            annotationView.draggable = true
             return annotationView
         }
         return nil
@@ -121,6 +126,8 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+        if view.annotation.isKindOfClass(MKUserLocation) { return }
+        
         let fence = view.annotation as! Fence
         
         if let ao = activeOverlay {
