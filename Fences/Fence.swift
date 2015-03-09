@@ -23,6 +23,7 @@ class Fence: NSObject, NSCoding, Equatable, Storeable {
     }
     
     var active: Bool
+    var textDescription = "Geocoding..."
         
     override init() {
         self.range = 200
@@ -58,6 +59,7 @@ class Fence: NSObject, NSCoding, Equatable, Storeable {
         aCoder.encodeDouble(internalCoordinate.longitude, forKey: "internalCoordinate_longitude")
         aCoder.encodeDouble(range, forKey: "range")
         aCoder.encodeBool(active, forKey: "active")
+        aCoder.encodeObject(textDescription, forKey: "textDescription")
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -69,6 +71,7 @@ class Fence: NSObject, NSCoding, Equatable, Storeable {
         )
         self.range = aDecoder.decodeDoubleForKey("range")
         self.active = aDecoder.decodeBoolForKey("active")
+        self.textDescription = aDecoder.decodeObjectForKey("textDescription") as! String
     }
     
 }
@@ -79,7 +82,7 @@ extension Fence: MKAnnotation {
     }
     
     var title: String {
-        return key
+        return textDescription
     }
     
     var subtitle: String {
@@ -100,6 +103,21 @@ func GetFenceStore() -> Store<Fence> {
         fs.didAddBlock = {
             fence in
             NSLog("will activate fence")
+            
+            let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(fence.location) {
+                (result, error) -> Void in
+                if (error != nil) {
+                    NSLog("error: \(error.localizedDescription)")
+                } else {
+                    
+                    for (index, placemark) in enumerate(result as! [CLPlacemark]) {
+                        NSLog("Placemark #\(index):\n\t\(placemark.addressDictionary)")
+                        let formattedAddress = (placemark.addressDictionary["FormattedAddressLines"] as! [String]).first
+                        fence.textDescription = formattedAddress!
+                    }
+                }
+            }
         }
         fs.willRemoveBlock = {
             fence in
