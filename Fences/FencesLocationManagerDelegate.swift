@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 
 var CurrentUserLocation: CLLocation!
+var CurrentUserHeading: CLHeading!
 
 class FencesLocationManagerDelegate: NSObject {
     let locationManager = CLLocationManager()
@@ -18,10 +19,12 @@ class FencesLocationManagerDelegate: NSObject {
         super.init()
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
     }
     
     deinit {
         locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingHeading()
     }
 }
 
@@ -31,6 +34,10 @@ extension FencesLocationManagerDelegate: CLLocationManagerDelegate {
         didUpdateToLocation newLocation: CLLocation!,
         fromLocation oldLocation: CLLocation!) {
             CurrentUserLocation = newLocation
+    }
+    
+    func locationManager(manager: CLLocationManager!, didUpdateHeading newHeading: CLHeading!) {
+        CurrentUserHeading = newHeading
     }
     
     func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
