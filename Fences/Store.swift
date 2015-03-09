@@ -115,8 +115,9 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
         return index[key]
     }
     
-    func remove(index: Int) {
-        operationQueue.addOperationWithBlock {
+    func remove(index: Int, callback:(() -> ())?) {
+        
+        let operation = NSBlockOperation() {
             [unowned self] in
             let item = self.get(index)
             
@@ -131,17 +132,20 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
                 dr(item)
             }
         }
+        
+        operation.completionBlock = callback
+        operationQueue.addOperation(operation)
     }
     
-    func remove(key: String) {
+    func remove(key: String, callback:(() -> ())?) {
         if let item = index[key] {
-            self.remove(item)
+            self.remove(item, callback: callback)
         }
     }
     
-    func remove(item: T) {
+    func remove(item: T, callback:(() -> ())?) {
         if let index = find(container, item) {
-            self.remove(index)
+            self.remove(index, callback: callback)
         }
     }
 }

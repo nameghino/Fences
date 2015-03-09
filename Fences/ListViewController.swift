@@ -32,12 +32,13 @@ extension ListViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("FenceCell", forIndexPath: indexPath) as! UITableViewCell
         let fence = FenceStore.get(indexPath.row)
         
         cell.textLabel?.text = fence.title
         let distance = CurrentUserLocation.distanceFromLocation(fence.location)
-        
+
         cell.detailTextLabel?.text = String(NSString(format: "%.0f m", distance))
         
         return cell
@@ -45,8 +46,12 @@ extension ListViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            FenceStore.remove(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            FenceStore.remove(indexPath.row) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    [unowned self] in
+                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+            }
         }
     }
 }
