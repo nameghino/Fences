@@ -40,7 +40,8 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
     public var willRemoveBlock: ((T) -> ())?
     public var didRemoveBlock: ((T) -> ())?
     
-    private var filePath: String
+    private var fileName: String
+    private var fileURL: NSURL
     
     var allItems: [T] {
         get {
@@ -48,19 +49,32 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
         }
     }
     
-    convenience init(filePath: String, creator: () -> T) {
-        self.init(filePath: filePath, loadFile: true, creator: creator)
+    convenience init(fileName: String, creator: () -> T) {
+        self.init(fileName: fileName, loadFile: true, appGroup: nil, creator: creator)
     }
     
-    init(filePath: String, loadFile: Bool, creator: () -> T) {
+    init(fileName: String, loadFile: Bool, appGroup: String?, creator: () -> T) {
         self.creator = creator
-        self.filePath = filePath
+        self.fileName = fileName
+        
+        let fm = NSFileManager.defaultManager()
+        
+        
+        if let ag = appGroup {
+            let appGroupURL = fm.containerURLForSecurityApplicationGroupIdentifier(ag)!
+            self.fileURL = appGroupURL.URLByAppendingPathComponent(self.fileName, isDirectory: false)
+        } else {
+            self.fileURL = NSURL(fileURLWithPath: fileName)!
+        }
         
         super.init()
+        
         if loadFile {
-            let fm = NSFileManager.defaultManager()
-            if fm.fileExistsAtPath(self.filePath) {
-                self.rebuildIndex(NSKeyedUnarchiver.unarchiveObjectWithFile(self.filePath) as! [T])
+            if fm.fileExistsAtPath(self.fileURL.path!) {
+                if let data = NSData(contentsOfURL: self.fileURL) {
+                    let archived = NSKeyedUnarchiver.unarchiveObjectWithFile(self.fileURL.path!) as! [T]
+                    self.rebuildIndex(archived)
+                }
             }
         }
     }
@@ -79,7 +93,9 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
     func save(callback: StoreSaveCallback?) {
         operationQueue.addOperationWithBlock() {
             [unowned self] in
-            let success = NSKeyedArchiver.archiveRootObject(self.container as! AnyObject, toFile: self.filePath)
+            
+            let data = NSKeyedArchiver.archivedDataWithRootObject(self.container as! AnyObject)
+            let success = data.writeToURL(self.fileURL, atomically: true)
             if let cb = callback {
                 cb(success)
             }
