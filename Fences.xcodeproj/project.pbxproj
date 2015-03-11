@@ -19,7 +19,7 @@
 		35070E551AA7AACD00E5D440 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E541AA7AACD00E5D440 /* Store.swift */; };
 		35070E571AA7B14000E5D440 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E561AA7B14000E5D440 /* ListViewController.swift */; };
 		35070E591AA7B46100E5D440 /* FencesLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E581AA7B46100E5D440 /* FencesLocationManagerDelegate.swift */; };
-		35106EA41AB0816200AC7D7E /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35106EA31AB0816200AC7D7E /* InterfaceController.swift */; };
+		35106EA41AB0816200AC7D7E /* FencesMapInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35106EA31AB0816200AC7D7E /* FencesMapInterfaceController.swift */; };
 		35106EA61AB0816200AC7D7E /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35106EA51AB0816200AC7D7E /* NotificationController.swift */; };
 		35106EA81AB0816200AC7D7E /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35106EA71AB0816200AC7D7E /* GlanceController.swift */; };
 		35106EAA1AB0816200AC7D7E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35106EA91AB0816200AC7D7E /* Images.xcassets */; };
@@ -30,6 +30,7 @@
 		35106EC31AB0822200AC7D7E /* Fence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E521AA7AA3F00E5D440 /* Fence.swift */; };
 		35106EC41AB0822200AC7D7E /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E541AA7AACD00E5D440 /* Store.swift */; };
 		35106EC51AB082DB00AC7D7E /* FencesLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35070E581AA7B46100E5D440 /* FencesLocationManagerDelegate.swift */; };
+		352122361AB0BC9000B6529A /* FencesListInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352122351AB0BC9000B6529A /* FencesListInterfaceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,7 +92,7 @@
 		35106E9E1AB0816200AC7D7E /* Fences WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Fences WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		35106EA11AB0816200AC7D7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35106EA21AB0816200AC7D7E /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
-		35106EA31AB0816200AC7D7E /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		35106EA31AB0816200AC7D7E /* FencesMapInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FencesMapInterfaceController.swift; sourceTree = "<group>"; };
 		35106EA51AB0816200AC7D7E /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		35106EA71AB0816200AC7D7E /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
 		35106EA91AB0816200AC7D7E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		35106EB71AB0816200AC7D7E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		35106EC61AB08C0900AC7D7E /* Fences.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Fences.entitlements; sourceTree = "<group>"; };
 		35106EC71AB08C7400AC7D7E /* Fences WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Fences WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		352122351AB0BC9000B6529A /* FencesListInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FencesListInterfaceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,7 +204,8 @@
 			isa = PBXGroup;
 			children = (
 				35106EC71AB08C7400AC7D7E /* Fences WatchKit Extension.entitlements */,
-				35106EA31AB0816200AC7D7E /* InterfaceController.swift */,
+				352122351AB0BC9000B6529A /* FencesListInterfaceController.swift */,
+				35106EA31AB0816200AC7D7E /* FencesMapInterfaceController.swift */,
 				35106EA51AB0816200AC7D7E /* NotificationController.swift */,
 				35106EA71AB0816200AC7D7E /* GlanceController.swift */,
 				35106EA91AB0816200AC7D7E /* Images.xcassets */,
@@ -434,7 +437,8 @@
 			files = (
 				35106EC41AB0822200AC7D7E /* Store.swift in Sources */,
 				35106EA61AB0816200AC7D7E /* NotificationController.swift in Sources */,
-				35106EA41AB0816200AC7D7E /* InterfaceController.swift in Sources */,
+				35106EA41AB0816200AC7D7E /* FencesMapInterfaceController.swift in Sources */,
+				352122361AB0BC9000B6529A /* FencesListInterfaceController.swift in Sources */,
 				35106EC51AB082DB00AC7D7E /* FencesLocationManagerDelegate.swift in Sources */,
 				35106EA81AB0816200AC7D7E /* GlanceController.swift in Sources */,
 				35106EC31AB0822200AC7D7E /* Fence.swift in Sources */,
@@ -733,6 +737,7 @@
 				35106EBF1AB0816200AC7D7E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		35106EC11AB0816200AC7D7E /* Build configuration list for PBXNativeTarget "Fences WatchKit Extension" */ = {
 			isa = XCConfigurationList;
@@ -741,6 +746,7 @@
 				35106EBD1AB0816200AC7D7E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

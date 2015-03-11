@@ -5,19 +5,52 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--WKFencesList-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Fences_WatchKit_App" customModuleProvider="target">
+                <controller identifier="WKFencesList" id="AgC-eL-Hgc" customClass="FencesListInterfaceController" customModule="Fences_WatchKit_Extension">
                     <items>
-                        <map alignment="left" id="cZw-Id-59a"/>
+                        <table alignment="left" id="5Er-5d-qTr">
+                            <items>
+                                <tableRow identifier="FencesListRowController" id="qHz-nX-euc" customClass="FencesListRowController" customModule="Fences_WatchKit_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="f49-Zd-aJK">
+                                        <items>
+                                            <map width="0.30000000000000016" alignment="left" id="jAB-iz-fBI"/>
+                                            <label width="0.69999999999999996" height="1" alignment="left" text="Label" numberOfLines="0" id="6pD-Sx-Sad"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="label" destination="6pD-Sx-Sad" id="K7r-u0-9vl"/>
+                                        <outlet property="mapView" destination="jAB-iz-fBI" id="fPW-5A-E0K"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
                     </items>
                     <connections>
-                        <outlet property="mapView" destination="cZw-Id-59a" id="KUx-eb-Tng"/>
+                        <outlet property="fencesTable" destination="5Er-5d-qTr" id="8nD-3d-bwb"/>
                     </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="235" y="347"/>
+        </scene>
+        <!--WKFencesMap-->
+        <scene sceneID="gld-hZ-tKI">
+            <objects>
+                <controller identifier="WKFencesMap" id="8cb-4x-3zN" customClass="FencesMapInterfaceController" customModule="Fences_WatchKit_Extension">
+                    <items>
+                        <label width="1" alignment="left" text="Label" textAlignment="center" id="bfY-59-Sy6"/>
+                        <map alignment="left" id="lUO-h1-8pK"/>
+                        <label width="1" alignment="left" text="Label" textAlignment="center" id="01I-jg-1wK"/>
+                    </items>
+                    <connections>
+                        <outlet property="fenceDistanceLabel" destination="01I-jg-1wK" id="ay9-aI-6cP"/>
+                        <outlet property="fenceTitleLabel" destination="bfY-59-Sy6" id="oz2-1L-i3l"/>
+                        <outlet property="mapView" destination="lUO-h1-8pK" id="mOj-3D-cJI"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="459" y="347"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">

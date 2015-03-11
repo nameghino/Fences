@@ -12,16 +12,22 @@ import Foundation
 
 class FencesMapInterfaceController: WKInterfaceController {
     
+    @IBOutlet weak var fenceTitleLabel: WKInterfaceLabel!
     @IBOutlet weak var mapView: WKInterfaceMap!
+    @IBOutlet weak var fenceDistanceLabel: WKInterfaceLabel!
+    
     let locationManager = CLLocationManager()
     let locationManagerDelegate = FencesLocationManagerDelegate()
     let watchFenceStore = GetFenceStore()
+    var targetFence: Fence?
+    
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
-        //locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+        if let f = context as? Fence {
+            targetFence = f
+        }
     }
     
     func findMaxMin(items: [Double]) -> (Double, Double) {
@@ -52,17 +58,16 @@ class FencesMapInterfaceController: WKInterfaceController {
     
     override func willActivate() {
         super.willActivate()
-        
-        if watchFenceStore.allItems.count == 0 {
-            NSLog("no fences")
-        } else {
-            let locations = GetFenceStore().allItems.map({ $0.location })
+        if let fence = targetFence {
+            let locations = [fence.location]
             mapView.setRegion(regionWithLocations(locations, padding: 0.1))
             for l in locations {
                 mapView.addAnnotation(l.coordinate, withPinColor: .Red)
             }
+            fenceTitleLabel.setText(fence.textDescription)
+            let distance = round(CurrentUserLocation.distanceFromLocation(fence.location))
+            fenceDistanceLabel.setText("\(distance) m away")
         }
-
     }
     
     override func didDeactivate() {
@@ -96,7 +101,7 @@ extension FencesMapInterfaceController: CLLocationManagerDelegate {
                 mapView.removeAllAnnotations()
                 mapView.addAnnotation(location.coordinate, withPinColor: .Green)
                 mapView.addAnnotation(n.location.coordinate, withPinColor: .Red)
-
+                
                 let region = regionWithLocations([location, n.location], padding: 0.15)
                 mapView.setRegion(region)
             }
