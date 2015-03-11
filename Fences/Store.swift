@@ -83,6 +83,7 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
         operationQueue.addOperationWithBlock() {
             [unowned self] in
             self.index.removeAll(keepCapacity: true)
+            self.container.removeAll(keepCapacity: true)
             for o in objects {
                 self.index[o.key] = o
                 self.container.append(o)
@@ -93,9 +94,7 @@ public class Store<T where T: Equatable, T: Storeable>: NSObject {
     func save(callback: StoreSaveCallback?) {
         operationQueue.addOperationWithBlock() {
             [unowned self] in
-            
-            let data = NSKeyedArchiver.archivedDataWithRootObject(self.container as! AnyObject)
-            let success = data.writeToURL(self.fileURL, atomically: true)
+            let success = NSKeyedArchiver.archiveRootObject(self.container as! AnyObject, toFile: self.fileURL.path!)
             if let cb = callback {
                 cb(success)
             }
