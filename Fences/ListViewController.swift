@@ -37,9 +37,11 @@ extension ListViewController: UITableViewDataSource {
         let fence = FenceStore.get(indexPath.row)
         
         cell.textLabel?.text = fence.title
-        let distance = CurrentUserLocation.distanceFromLocation(fence.location)
-
-        cell.detailTextLabel?.text = String(NSString(format: "%.0f m", distance))
+        cell.textLabel?.numberOfLines = 0
+        if let location = CurrentUserLocation {
+            let distance = CurrentUserLocation.distanceFromLocation(fence.location)
+            cell.detailTextLabel?.text = String(NSString(format: "%.0f m", distance))
+        }
         
         return cell
     }
