@@ -44,7 +44,7 @@ extension FencesLocationManagerDelegate: CLLocationManagerDelegate {
         if let fence = FenceStore.get(region.identifier) {
             let notification = UILocalNotification()
             notification.alertBody = "Approaching \(fence.key)"
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+            //UIApplication.sharedApplication().scheduleLocalNotification(notification)
         }
     }
 }
