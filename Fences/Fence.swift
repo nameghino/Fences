@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-
+@objc(Fence)
 class Fence: NSObject, NSCoding, Equatable, Storeable {
     var createdOn: NSDate = NSDate()
     var key: String = NSUUID().UUIDString
@@ -99,7 +99,9 @@ var fence_store_dispatch_token = dispatch_once_t()
 
 func GetFenceStore() -> Store<Fence> {
     dispatch_once(&fence_store_dispatch_token) {
-        let fs = Store<Fence>(filePath: filePathInDocumentsDirectory("fences.plist")) { return Fence() }
+        
+        
+        let fs = Store<Fence>(fileName: "fences.plist", loadFile: true, appGroup: "group.org.nameghino.fences") { return Fence() }
         fs.didAddBlock = {
             fence in
             NSLog("will activate fence")
